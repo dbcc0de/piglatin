@@ -1,5 +1,6 @@
 "use strict";
 
+// ended up not needing consonants, for letter characters we can use vowels and !vowels
 const consonants = [
   "b",
   "c",
@@ -25,6 +26,11 @@ const consonants = [
 ];
 const vowels = ["a", "e", "i", "o", "u"];
 
+// searches for numbers (global)
+const numbers = /[0-9]/g;
+const regex = /[0-9@]/g;
+// searches for non letter characters (global)
+const symbols = /\W/g;
 // const splitToPush = () => {
 
 // }
@@ -73,8 +79,21 @@ const vowels = ["a", "e", "i", "o", "u"];
 // };
 
 const translate = (word) => {
-  if (vowels.includes(word[0])) {
+  const checkIfTwo = word.split(" ");
+  if (regex.test(word)) {
+    return word;
+  } else if (vowels.includes(word[0])) {
     return word.toLowerCase() + "way";
+  } else if (checkIfTwo.length > 1) {
+    let preJoinArray = [];
+    for (let i = 0; i < checkIfTwo.length; i++) {
+      checkIfTwo[i].split("");
+      const index = checkIfTwo[i].search(vowels);
+      const conson = checkIfTwo[i].slice(index);
+      const vowelsPlus = checkIfTwo[i].slice(0, index);
+      preJoinArray.push(`${conson}${vowelsPlus}ay`);
+    }
+    return preJoinArray.join(" ");
   } else {
     const wordArray = word.split("");
     const index = wordArray.findIndex((char) => vowels.includes(char));
